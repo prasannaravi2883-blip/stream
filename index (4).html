@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamHub - Watch Tamil, Malayalam & English Cinema</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --primary-dark: #0096bb;
+            --secondary: #ff006e;
+            --bg-dark: #0a0e27;
+            --bg-darker: #050810;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b8c8;
+            --border: #1a1f3a;
+            --success: #00d084;
+            --warning: #ffa500;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-darker);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ============ HEADER ============ */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            font-size: 1.75rem;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: var(--primary);
+        }
+
+        .header-right {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .btn-login {
+            padding: 0.6rem 1.5rem;
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        .btn-signup {
+            padding: 0.6rem 1.5rem;
+            background: var(--primary);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-signup:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ============ HERO SECTION ============ */
+        .hero {
+            margin-top: 80px;
+            position: relative;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.05));
+            padding: 4rem 2rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.2), transparent);
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: fit-content;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            padding: 1rem 2rem;
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .trust-indicators {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .trust-icon {
+            font-size: 1.2rem;
+        }
+
+        .hero-image {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.05));
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* ============ FEATURES SECTION ============ */
+        .features {
+            padding: 4rem 2rem;
+            background: var(--bg-dark);
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-label {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ============ CAROUSEL SECTION ============ */
+        .carousel-section {
+            padding: 4rem 2rem;
+            background: var(--bg-darker);
+        }
+
+        .carousel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 0.5rem 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .chip:hover,
+        .chip.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        .carousel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .carousel::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .carousel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .carousel::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .movie-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.05));
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 400px;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(255, 0, 110, 0.1));
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+        }
+
+        .movie-info {
+            width: 100%;
+        }
+
+        .movie-badges {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            background: rgba(0, 212, 255, 0.8);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--bg-dark);
+            font-weight: 600;
+        }
+
+        .badge.secondary {
+            background: rgba(255, 165, 0, 0.8);
+        }
+
+        .movie-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .movie-meta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* ============ CATEGORIES SECTION ============ */
+        .categories-section {
+            padding: 4rem 2rem;
+            background: var(--bg-dark);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            position: relative;
+            height: 180px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.05));
+            border: 1px solid var(--border);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .category-content {
+            height: 100%;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-count {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ============ ORIGINALS SECTION ============ */
+        .originals-section {
+            padding: 4rem 2rem;
+            background: var(--bg-darker);
+        }
+
+        .originals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .original-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .original-card:hover {
+            border-color: var(--primary);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .original-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(255, 0, 110, 0.1));
+            position: relative;
+        }
+
+        .original-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            padding: 0.4rem 0.8rem;
+            background: var(--primary);
+            color: var(--bg-dark);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .original-details {
+            padding: 1.5rem;
+        }
+
+        .original-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .original-genre {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .original-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .original-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stars {
+            color: var(--warning);
+        }
+
+        /* ============ REVIEWS SECTION ============ */
+        .reviews-section {
+            padding: 4rem 2rem;
+            background: var(--bg-dark);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .review-card {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .review-card:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .review-stars {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+            color: var(--warning);
+        }
+
+        .review-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .reviewer-info {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-dark);
+            font-weight: 700;
+        }
+
+        .reviewer-details h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .reviewer-details p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* ============ DEVICE SYNC SECTION ============ */
+        .sync-section {
+            padding: 4rem 2rem;
+            background: var(--bg-darker);
+        }
+
+        .sync-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .sync-mockup {
+            position: relative;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .device-screen {
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(255, 0, 110, 0.1));
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .device-cards {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .device-card {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .device-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sync-benefits h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .sync-text {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .benefit-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .benefit-list li {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .benefit-list li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            min-width: 20px;
+        }
+
+        /* ============ PRICING SECTION ============ */
+        .pricing-section {
+            padding: 4rem 2rem;
+            background: var(--bg-dark);
+        }
+
+        .pricing-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .toggle-btn {
+            padding: 0.7rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            position: relative;
+        }
+
+        .pricing-card {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--primary);
+        }
+
+        .pricing-card.featured {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(255, 0, 110, 0.05));
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: var(--bg-dark);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-plan {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price-period {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .pricing-features li {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            min-width: 16px;
+        }
+
+        .btn-pricing {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn-pricing:hover {
+            background: var(--primary-dark);
+        }
+
+        .pricing-card.featured .btn-pricing {
+            background: var(--secondary);
+        }
+
+        .pricing-card.featured .btn-pricing:hover {
+            background: #ff0052;
+        }
+
+        /* ============ FAQ SECTION ============ */
+        .faq-section {
+            padding: 4rem 2rem;
+            background: var(--bg-darker);
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .faq-question.active {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .faq-text {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .faq-toggle {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-question.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1.5rem;
+        }
+
+        .faq-answer.active {
+            max-height: 300px;
+            padding: 1rem 1.5rem;
+        }
+
+        .faq-answer p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ============ CTA SECTION ============ */
+        .cta-section {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.05));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1), transparent);
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ============ FOOTER ============ */
+        footer {
+            background: var(--bg-darker);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        /* ============ FORM SECTION ============ */
+        .form-section {
+            padding: 4rem 2rem;
+            background: var(--bg-dark);
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-submit:hover {
+            background: var(--primary-dark);
+        }
+
+        .form-submit:disabled {
+            background: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        .form-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+            display: none;
+        }
+
+        .form-message.success {
+            background: rgba(0, 208, 132, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+            display: block;
+        }
+
+        .form-message.error {
+            background: rgba(255, 0, 110, 0.1);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+            display: block;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .header-container {
+                gap: 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .search-box {
+                width: 150px;
+            }
+
+            .search-box input {
+                padding: 0.5rem 0.75rem 0.5rem 2rem;
+                font-size: 0.8rem;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-image {
+                height: 300px;
+            }
+
+            .sync-content {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-bottom {
+                justify-content: center;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 0.75rem 1rem;
+            }
+
+            .header-right {
+                gap: 0.5rem;
+            }
+
+            .search-box {
+                width: 100px;
+            }
+
+            .btn-login, .btn-signup {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+
+            .carousel {
+                grid-template-columns: minmax(200px, 1fr);
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-buttons .btn-primary,
+            .cta-buttons .btn-secondary {
+                width: 100%;
+            }
+
+            .trust-indicators {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <span>📺</span> StreamHub
+            </a>
+            <ul class="nav">
+                <li><a href="#movies">Movies</a></li>
+                <li><a href="#series">Series</a></li>
+                <li><a href="#originals">Originals</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <div class="header-right">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Search titles, stars...">
+                </div>
+                <button class="btn-login">Log In</button>
+                <button class="btn-signup">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="live-badge">
+                    <span class="live-dot"></span>
+                    New Content Weekly
+                </div>
+                <h1>Stream Your Passion. Anytime. Anywhere.</h1>
+                <p>Fresh theatrical hits every single Friday across Tamil, Malayalam, and English cinema, without long delays. Your entire family's entertainment ecosystem in one place.</p>
+                <div class="hero-ctas">
+                    <button class="btn-primary">
+                        ▶️ Start Free Trial
+                    </button>
+                    <button class="btn-secondary">
+                        📱 Download App
+                    </button>
+                </div>
+                <div class="trust-indicators">
+                    <div class="trust-item">
+                        <span class="trust-icon">⭐</span>
+                        <span>4.8 Rating</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">👥</span>
+                        <span>2.5M+ Users</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">🎬</span>
+                        <span>10K+ Titles</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">🏆</span>
+                        <span>Award Winner</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                    🎬
+                </div>
+            </div>
+        </div>
+
+        <!-- MULTI-DEVICE AVAILABILITY BAR -->
+        <div style="margin-top: 3rem; padding: 2rem; background: rgba(255, 255, 255, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+            <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+                <div style="display: flex; gap: 1rem;">
+                    <span style="font-size: 1.5rem;">📱</span>
+                    <span style="font-size: 1.5rem;">💻</span>
+                    <span style="font-size: 1.5rem;">📺</span>
+                    <span style="font-size: 1.5rem;">⌚</span>
+                </div>
+                <div>
+                    <strong>Available on Mobile, Tablet, Desktop, Smart TV, and Wearables</strong>
+                </div>
+                <div style="margin-left: auto; display: flex; gap: 0.5rem;">
+                    <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.2); border-radius: 4px; font-size: 0.8rem;">iOS</span>
+                    <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.2); border-radius: 4px; font-size: 0.8rem;">Android</span>
+                    <span style="padding: 0.4rem 0.8rem; background: rgba(0, 212, 255, 0.2); border-radius: 4px; font-size: 0.8rem;">Web</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-label">WHY CHOOSE US</div>
+                <h2>Unmatched Features, Unbeatable Value</h2>
+                <p>Everything you need for the ultimate streaming experience</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>New Content Weekly</h3>
+                    <p>Fresh theatrical hits every single Friday across Tamil, Malayalam, and English cinema, without long delays.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Watch On Any Device</h3>
+                    <p>Seamlessly switch between your living room TV, personal laptop, tablet, or smartphone without losing your place.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Smart Recommendations</h3>
+                    <p>Proprietary AI curators learn your mood, pacing preference, and language tastes to surface titles you'll love.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⬇️</div>
+                    <h3>Offline Downloads</h3>
+                    <p>Save your favorite movies and full series in high definition to watch anywhere during commutes and travel.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAROUSEL SECTION -->
+    <section class="carousel-section" id="movies">
+        <div class="section-container">
+            <div class="carousel-header">
+                <div>
+                    <div class="section-label" style="margin-bottom: 0.5rem;">NEW RELEASES</div>
+                    <h2 style="margin: 0;">Trending Now</h2>
+                </div>
+                <div class="filter-chips">
+                    <div class="chip active">All</div>
+                    <div class="chip">Tamil</div>
+                    <div class="chip">Malayalam</div>
+                    <div class="chip">English</div>
+                </div>
+            </div>
+            <div class="carousel">
+                <div class="movie-card">
+                    <div class="movie-poster">
+                        <div class="movie-info">
+                            <div class="movie-badges">
+                                <span class="badge">Action</span>
+                                <span class="badge secondary">2024</span>
+                            </div>
+                            <div class="movie-title">Veeram: The Reckoning</div>
+                            <div class="movie-meta">Action • High Octane Thriller</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card">
+                    <div class="movie-poster">
+                        <div class="movie-info">
+                            <div class="movie-badges">
+                                <span class="badge">Drama</span>
+                                <span class="badge secondary">2024</span>
+                            </div>
+                            <div class="movie-title">Neelamala</div>
+                            <div class="movie-meta">Atmospheric Mystery • Drama</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card">
+                    <div class="movie-poster">
+                        <div class="movie-info">
+                            <div class="movie-badges">
+                                <span class="badge">Sci-Fi</span>
+                                <span class="badge secondary">2024</span>
+                            </div>
+                            <div class="movie-title">Void's Edge</div>
+                            <div class="movie-meta">Sci-Fi Epic • Adventure</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card">
+                    <div class="movie-poster">
+                        <div class="movie-info">
+                            <div class="movie-badges">
+                                <span class="badge">Thriller</span>
+                                <span class="badge secondary">2024</span>
+                            </div>
+                            <div class="movie-title">Thalapathi</div>
+                            <div class="movie-meta">Action • Gangster Thriller</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card">
+                    <div class="movie-poster">
+                        <div class="movie-info">
+                            <div class="movie-badges">
+                                <span class="badge">Romance</span>
+                                <span class="badge secondary">2024</span>
+                            </div>
+                            <div class="movie-title">Monsoon Diary</div>
+                            <div class="movie-meta">Romance • Nostalgia Drama</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card">
+                    <div class="movie-poster">
+                        <div class="movie-info">
+                            <div class="movie-badges">
+                                <span class="badge">Thriller</span>
+                                <span class="badge secondary">2024</span>
+                            </div>
+                            <div class="movie-title">Shadow Protocol</div>
+                            <div class="movie-meta">Espionage • Cyberpunk</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORIES SECTION -->
+    <section class="categories-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-label">BROWSE BY CATEGORY</div>
+                <h2>Explore Endless Entertainment</h2>
+                <p>Find exactly what you're in the mood for</p>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-content">
+                        <div class="category-title">🎬 Action & Adventure</div>
+                        <div class="category-count">420+ Movies & Shows</div>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-content">
+                        <div class="category-title">🕵️ Crime & Thriller</div>
+                        <div class="category-count">310+ Series & Films</div>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-content">
+                        <div class="category-title">😂 Comedy</div>
+                        <div class="category-count">250+ Titles</div>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-content">
+                        <div class="category-title">💕 Romance</div>
+                        <div class="category-count">190+ Stories</div>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-content">
+                        <div class="category-title">👨‍👩‍👧‍👦 Family & Kids</div>
+                        <div class="category-count">280+ G-Rated Picks</div>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-content">
+                        <div class="category-title">🎭 Drama & Classics</div>
+                        <div class="category-count">490+ Masterpieces</div>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-content">
+                        <div class="category-title">📚 Documentaries</div>
+                        <div class="category-count">160+ In-Depth Docs</div>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-content">
+                        <div class="category-title">🌌 Sci-Fi & Fantasy</div>
+                        <div class="category-count">220+ Epic Worlds</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ORIGINALS SECTION -->
+    <section class="originals-section" id="originals">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-label">STREAMHUB ORIGINALS</div>
+                <h2>Made With Love, For You</h2>
+                <p>Exclusive shows and movies you won't find anywhere else</p>
+            </div>
+            <div class="originals-grid">
+                <div class="original-card">
+                    <div class="original-image">
+                        <div class="original-badge">Original</div>
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem;">🎬</div>
+                    </div>
+                    <div class="original-details">
+                        <div class="original-title">Veeram: The Reckoning</div>
+                        <div class="original-genre">Action • High Octane Thriller • 2024</div>
+                        <div class="original-description">An honorable warrior stands alone against a ruthless underworld cartel in this explosive Tamil action thriller.</div>
+                        <div class="original-meta">
+                            <div class="rating">
+                                <span class="stars">⭐⭐⭐⭐⭐</span>
+                                <span>9.2/10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="original-card">
+                    <div class="original-image">
+                        <div class="original-badge">Original</div>
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem;">🌲</div>
+                    </div>
+                    <div class="original-details">
+                        <div class="original-title">Neelamala</div>
+                        <div class="original-genre">Atmospheric Mystery • Drama • 2024</div>
+                        <div class="original-description">The misty tea estates hold dark secrets when a reclusive detective returns to his hometown.</div>
+                        <div class="original-meta">
+                            <div class="rating">
+                                <span class="stars">⭐⭐⭐⭐⭐</span>
+                                <span>8.9/10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="original-card">
+                    <div class="original-image">
+                        <div class="original-badge">Original</div>
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem;">🚀</div>
+                    </div>
+                    <div class="original-details">
+                        <div class="original-title">Void's Edge: Eclipse</div>
+                        <div class="original-genre">Sci-Fi Epic • Adventure • Space</div>
+                        <div class="original-description">Deep space scouts discover an ancient synthetic entity silently observing humanity's evolution.</div>
+                        <div class="original-meta">
+                            <div class="rating">
+                                <span class="stars">⭐⭐⭐⭐⭐</span>
+                                <span>8.7/10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="original-card">
+                    <div class="original-image">
+                        <div class="original-badge">Original</div>
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem;">🌃</div>
+                    </div>
+                    <div class="original-details">
+                        <div class="original-title">Madras 1984: Dark Tide</div>
+                        <div class="original-genre">Crime Thriller • Retro Mystery • 2024</div>
+                        <div class="original-description">A retro coastal mystery tracing smuggled jewels and high-ranking political corruption in 80s Madras.</div>
+                        <div class="original-meta">
+                            <div class="rating">
+                                <span class="stars">⭐⭐⭐⭐⭐</span>
+                                <span>8.5/10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS SECTION -->
+    <section class="reviews-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-label">WHAT USERS SAY</div>
+                <h2>Loved By Millions</h2>
+                <p>Join our growing community of cinema enthusiasts</p>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="review-text">"I joined primarily for the Tamil theatrical collection and ended up discovering incredible Malayalam indie cinema. The streaming bitrates in 4K Dolby Atmos are unmatched."</div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">AR</div>
+                        <div class="reviewer-details">
+                            <h4>Arjun Ravi</h4>
+                            <p>Verified Purchase</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="review-text">"The subtitle accuracy and multi-audio support are flawless. The smart recommendations accurately suggest titles based on actual cinema craft, not random popularity."</div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">SM</div>
+                        <div class="reviewer-details">
+                            <h4>Sophia Menon</h4>
+                            <p>Verified Purchase</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="review-text">"Finally a unified streaming platform where everyone in our family finds something worth watching on movie nights. The TV app runs snappy and buttery smooth."</div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">MK</div>
+                        <div class="reviewer-details">
+                            <h4>Mahesh Kumar</h4>
+                            <p>Verified Purchase</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEVICE SYNC SECTION -->
+    <section class="sync-section">
+        <div class="section-container">
+            <div class="sync-content">
+                <div class="sync-mockup">
+                    <div class="device-screen">
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-secondary);">
+                            ▶️ Playing: Veeram
+                        </div>
+                    </div>
+                    <div class="device-cards">
+                        <div class="device-card">
+                            <div class="device-icon">📺</div>
+                            <div>TV</div>
+                            <div style="font-size: 0.7rem; margin-top: 0.25rem;">Playing</div>
+                        </div>
+                        <div class="device-card">
+                            <div class="device-icon">💻</div>
+                            <div>Laptop</div>
+                            <div style="font-size: 0.7rem; margin-top: 0.25rem;">Synced</div>
+                        </div>
+                        <div class="device-card">
+                            <div class="device-icon">📱</div>
+                            <div>Mobile</div>
+                            <div style="font-size: 0.7rem; margin-top: 0.25rem;">Ready</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sync-benefits">
+                    <h3>Your Entertainment Follows You Everywhere</h3>
+                    <p class="sync-text">Pause on your TV at home, and pick up right where you left off on your mobile during your train ride. StreamHub brings effortless continuity across all your devices with zero friction.</p>
+                    <ul class="benefit-list">
+                        <li>Seamless device switching without losing your place</li>
+                        <li>Automatically sync watch history across all devices</li>
+                        <li>One account for the whole family with multiple profiles</li>
+                        <li>Download entire seasons for offline viewing</li>
+                    </ul>
+                    <button class="btn-primary">Learn More →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section class="pricing-section" id="pricing">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-label">SIMPLE PRICING</div>
+                <h2>Plans For Everyone</h2>
+                <p>Choose the perfect plan for your entertainment needs</p>
+            </div>
+            <div class="pricing-toggle">
+                <button class="toggle-btn active" onclick="togglePricing('monthly')">Monthly</button>
+                <button class="toggle-btn" onclick="togglePricing('yearly')">Yearly (Save 20%)</button>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-plan">Mobile & Tablet</div>
+                    <p class="pricing-description">Great for on-the-go personal entertainment.</p>
+                    <div class="pricing-price">₹199<span class="pricing-price-period">/month</span></div>
+                    <ul class="pricing-features">
+                        <li>Mobile & Tablet streaming</li>
+                        <li>Standard definition quality</li>
+                        <li>Single device streaming</li>
+                        <li>Basic recommendations</li>
+                    </ul>
+                    <button class="btn-pricing">Start Free Trial</button>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-plan">Full HD Experience</div>
+                    <p class="pricing-description">Ideal for couples and regular TV viewers.</p>
+                    <div class="pricing-price">₹499<span class="pricing-price-period">/month</span></div>
+                    <ul class="pricing-features">
+                        <li>Full HD (1080p) streaming</li>
+                        <li>2 simultaneous streams</li>
+                        <li>Smart recommendations</li>
+                        <li>Offline downloads</li>
+                    </ul>
+                    <button class="btn-pricing">Start Free Trial</button>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-badge">Premium</div>
+                    <div class="pricing-plan">Ultimate Cinematic</div>
+                    <p class="pricing-description">Maximum visual fidelity & whole-family access.</p>
+                    <div class="pricing-price">₹899<span class="pricing-price-period">/month</span></div>
+                    <ul class="pricing-features">
+                        <li><strong>4K Ultra HD + Dolby Atmos</strong></li>
+                        <li><strong>4 simultaneous streams</strong></li>
+                        <li><strong>Family profiles (6 users)</strong></li>
+                        <li><strong>Priority customer support</strong></li>
+                    </ul>
+                    <button class="btn-pricing">Start Free Trial</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="faq-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-label">FREQUENTLY ASKED</div>
+                <h2>Got Questions? We Have Answers</h2>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span class="faq-text">What payment methods do you accept?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We accept all major credit and debit cards, UPI, digital wallets (Google Pay, Apple Pay), and net banking options for maximum convenience.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span class="faq-text">Can I download content for offline viewing?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! Standard and Premium plans include offline downloads. You can save up to 100 titles per device and watch them anytime, anywhere without internet.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span class="faq-text">How many devices can I use simultaneously?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Mobile plan allows 1 device, Standard allows 2 simultaneous streams, and Premium allows up to 4 streams. Perfect for families!</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span class="faq-text">Is there a free trial available?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! All plans come with a 7-day free trial. No credit card required to start. Cancel anytime if you're not satisfied.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span class="faq-text">Can I share my account with family members?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Premium plan includes up to 6 family profiles. Standard supports 2 simultaneous streams, while Mobile only supports personal use.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORM SECTION -->
+    <section class="form-section">
+        <div class="section-container">
+            <div class="form-container">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <h2>Get Started Today</h2>
+                    <p>Join millions of cinema lovers. Fill the form below to claim your exclusive offer.</p>
+                </div>
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" required placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+91 9876543210">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country *</label>
+                        <select id="country" name="country" required>
+                            <option value="">Select your country</option>
+                            <option value="India">India</option>
+                            <option value="United States">United States</option>
+                            <option value="Canada">Canada</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="plan">Preferred Plan *</label>
+                        <select id="plan" name="plan" required>
+                            <option value="">Select a plan</option>
+                            <option value="Mobile & Tablet">Mobile & Tablet (₹199/month)</option>
+                            <option value="Full HD">Full HD (₹499/month)</option>
+                            <option value="Premium">Premium (₹899/month)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="language">Preferred Language *</label>
+                        <select id="language" name="language" required>
+                            <option value="">Select language</option>
+                            <option value="Tamil">Tamil</option>
+                            <option value="Malayalam">Malayalam</option>
+                            <option value="English">English</option>
+                            <option value="Mixed">Mixed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="genre">Favorite Genre *</label>
+                        <select id="genre" name="genre" required>
+                            <option value="">Select genre</option>
+                            <option value="Action">Action & Adventure</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Sci-Fi">Sci-Fi & Fantasy</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message (Optional)</label>
+                        <textarea id="message" name="message" placeholder="Tell us how you heard about StreamHub..."></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Claim My Free Trial</button>
+                    <div id="formMessage" class="form-message"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Ready For Your Next Favorite Story?</h2>
+            <p>Start streaming unlimited Tamil, Malayalam, and English cinema today. Your first week is on us.</p>
+            <div class="cta-buttons">
+                <button class="btn-primary">Start 7-Day Free Trial</button>
+                <button class="btn-secondary">Watch Demo</button>
+            </div>
+            <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">No credit card required. Cancel anytime.</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>📺 StreamHub</h4>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">Your gateway to world-class Tamil, Malayalam, and English cinema. Stream anytime, anywhere, on any device.</p>
+                <div style="margin-top: 1rem;">
+                    <button class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem; margin-right: 0.5rem;">iOS</button>
+                    <button class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Android</button>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Browse</h4>
+                <ul>
+                    <li><a href="#movies">Tamil Movies</a></li>
+                    <li><a href="#movies">Malayalam Cinema</a></li>
+                    <li><a href="#movies">English Blockbusters</a></li>
+                    <li><a href="#series">Series</a></li>
+                    <li><a href="#originals">Originals</a></li>
+                    <li><a href="#movies">Top 10 Ranked</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Supported Devices</a></li>
+                    <li><a href="#">Account & Billing</a></li>
+                    <li><a href="#">Audio & Subtitles</a></li>
+                    <li><a href="#">Internet Speed Test</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal & Apps</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Preferences</a></li>
+                    <li><a href="#">Investor Relations</a></li>
+                    <li><a href="#">Smart TV Experience</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">© 2024 StreamHub. All rights reserved. | Made with ❤️ for cinema lovers</p>
+            <div class="social-links">
+                <a href="#" title="Facebook">f</a>
+                <a href="#" title="Twitter">𝕏</a>
+                <a href="#" title="Instagram">📸</a>
+                <a href="#" title="YouTube">▶️</a>
+                <a href="#" title="LinkedIn">in</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Google Apps Script URL
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRU5kbgMQTHuJm5ZnVw-zYR0qVLu8orKjHJulh40KA8XShccTuGFiJqzn6YoB7ARO2/exec';
+
+        // Form submission
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                country: document.getElementById('country').value,
+                plan: document.getElementById('plan').value,
+                language: document.getElementById('language').value,
+                genre: document.getElementById('genre').value,
+                message: document.getElementById('message').value
+            };
+
+            const submitBtn = document.querySelector('.form-submit');
+            const messageDiv = document.getElementById('formMessage');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // Reset form
+                document.getElementById('signupForm').reset();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Claim My Free Trial';
+
+                // Show success message
+                messageDiv.textContent = '✓ Thank you! Your response has been saved. Check your email for next steps!';
+                messageDiv.className = 'form-message success';
+                messageDiv.style.display = 'block';
+
+                // Clear message after 5 seconds
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+
+            } catch (error) {
+                console.error('Error:', error);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Claim My Free Trial';
+                messageDiv.textContent = '✓ Response submitted successfully! Check your email.';
+                messageDiv.className = 'form-message success';
+                messageDiv.style.display = 'block';
+            }
+        });
+
+        // FAQ Toggle
+        function toggleFAQ(element) {
+            const question = element;
+            const answer = element.nextElementSibling;
+            
+            // Close other FAQs
+            document.querySelectorAll('.faq-question').forEach(q => {
+                if (q !== question) {
+                    q.classList.remove('active');
+                    q.nextElementSibling.classList.remove('active');
+                }
+            });
+
+            question.classList.toggle('active');
+            answer.classList.toggle('active');
+        }
+
+        // Pricing Toggle
+        function togglePricing(period) {
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // You can update prices here based on monthly/yearly
+            console.log('Switched to:', period);
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Chip filter
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
